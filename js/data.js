@@ -2,9 +2,9 @@
 const CONFIG = {
   email: "omarmfa2211@gmail.com",
   linkedin: "https://www.linkedin.com/in/omar-ahmed-30925635b",
-  github: "",                          // paste your GitHub profile URL here; the icon appears automatically
+  github: "https://github.com/Slash707",
   location: "Kuwait City, Kuwait",
-  profilePhoto: "assets/profile.jpg",  // the site also tries .jpeg, .png, .webp and a few other names
+  profilePhoto: "",
   showPlaceholders: false
 };
 
@@ -142,14 +142,92 @@ const LABS = [
 ];
 
 const VFILES = [
-  { name: "multiplexer_4bit.v", path: "verilog/multiplexer_4bit.v", note: "Verilog exported from my Digital 4-bit multiplexer, built from four 2-bit multiplexers." },
-  { name: "multiplexer_4bit_vectors.txt", path: "verilog/multiplexer_4bit_vectors.txt", note: "My multiplexer test vectors: expected y, select, a, b." },
-  { name: "register_4bit.v", path: "verilog/register_4bit.v", note: "Verilog exported from my 4-bit register: four D flip-flops with enable and reset." },
-  { name: "register_4bit_stim.v", path: "verilog/register_4bit_stim.v", note: "Stimulus file with the register's test vectors." },
-  { name: "microprocessor.v", path: "verilog/microprocessor.v", note: "Verilog exported from my microprocessor: controller with microcode ROM, address generator, and the accumulator datapath." },
-  { name: "microprocessor_stim.v", path: "verilog/microprocessor_stim.v", note: "Stimulus file for the microprocessor testbench." }
-];
+  // LAB 2 — ALU and Multiplexer
+  {
+    name: "Lab 2 ALU Add",
+    path: "verilog/lab2_alu_add.v",
+    note: "Verilog source for the Lab 2 ALU addition circuit."
+  },
+  {
+    name: "Lab 2 ALU Top",
+    path: "verilog/lab2_alu_top.v",
+    note: "Top-level module connecting the Lab 2 ALU components."
+  },
+  {
+    name: "Lab 2 Multiplexer",
+    path: "verilog/lab2_four_bit_mux.v",
+    note: "Four-bit multiplexer implementation."
+  },
+  {
+    name: "Lab 2 Mux Top",
+    path: "verilog/lab2_four_bit_mux_top.v",
+    note: "Top-level module for the four-bit multiplexer."
+  },
+  {
+    name: "Lab 2 Mux Vectors",
+    path: "verilog/lab2_four_bit_mux_stim.txt",
+    note: "Test vectors for the four-bit multiplexer."
+  },
 
+  // LAB 3 — ALU, Register, and Brainless Processor
+  {
+    name: "Lab 3 ALU Top",
+    path: "verilog/lab3_alu_top.v",
+    note: "Top-level ALU module from Lab 3."
+  },
+  {
+    name: "Lab 3 Brainless",
+    path: "verilog/lab3_brainless.v",
+    note: "Brainless processor implementation."
+  },
+  {
+    name: "Lab 3 Brainless Stim",
+    path: "verilog/lab3_brainless_stim.v",
+    note: "Testbench stimulus for the brainless processor."
+  },
+  {
+    name: "Lab 3 Brainless Top",
+    path: "verilog/lab3_brainless_top.v",
+    note: "Top-level brainless processor module."
+  },
+  {
+    name: "Lab 3 Register",
+    path: "verilog/lab3_four_bit_reg.v",
+    note: "Four-bit register implementation."
+  },
+  {
+    name: "Lab 3 Register Stim",
+    path: "verilog/lab3_four_bit_reg_stim.v",
+    note: "Testbench stimulus for the four-bit register."
+  },
+  {
+    name: "Lab 3 Register Top",
+    path: "verilog/lab3_four_bit_reg_top.v",
+    note: "Top-level four-bit register module."
+  },
+
+  // LAB 4 — Microprocessor
+  {
+    name: "Lab 4 Microprocessor",
+    path: "verilog/lab4_microprocessor.v",
+    note: "Microprocessor implementation."
+  },
+  {
+    name: "Lab 4 Micro Stim",
+    path: "verilog/lab4_micro_stim.v",
+    note: "Microprocessor testbench stimulus."
+  },
+  {
+    name: "Lab 4 Micro Top",
+    path: "verilog/lab4_micro_top.v",
+    note: "Top-level microprocessor module."
+  },
+  {
+    name: "Lab 4 RAM Values",
+    path: "verilog/lab4_ram_vals.txt",
+    note: "RAM initialization values used by the microprocessor."
+  }
+];
 const CPPFILES = [
   { name: "alu_model.cpp", path: "cpp/alu_model.cpp", note: "Software model of a 4-bit ALU built from full adders and logic operations." },
   { name: "fuzzy_membership.cpp", path: "cpp/fuzzy_membership.cpp", note: "Fuzzification of wind speed into LOW, MEDIUM and HIGH sets: a concept study, not the internship system." }

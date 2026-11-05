@@ -22,49 +22,69 @@ safe("theme", () => {
 });
 
 safe("year", () => { $("#yr").textContent = new Date().getFullYear(); });
-
-/* ---------- profile picture: tries the configured path, then common alternatives ---------- */
-safe("profile", () => {
-  const base = CONFIG.profilePhoto || "assets/profile.jpg";
-  const stem = base.replace(/\.[^./]+$/, "");
-  const names = [base];
-  ["jpg", "jpeg", "png", "webp", "JPG", "JPEG", "PNG", "jnp", "jpg.jpg", "jpeg.jpg"].forEach(x => names.push(stem + "." + x));
-  ["profile.jpg", "profile.jpeg", "profile.png", "profile.webp", "assets/images/profile.jpg", "assets/img/profile.jpg", "images/profile.jpg"].forEach(x => names.push(x));
-  const list = [...new Set(names)];
-  const img = $("#profileImg"), frame = $("#photoFrame");
-  let i = 0;
-  const next = () => {
-    if (i >= list.length) { console.warn("[portfolio] No profile picture found. Put it in assets/ as profile.jpg. Tried:", list.join(", ")); return; }
-    const test = new Image(); const src = list[i++];
-    test.onload = () => { img.src = src; img.hidden = false; frame.classList.remove("no-photo"); };
-    test.onerror = next;
-    test.src = src;
-  };
-  next();
-});
-
-/* ---------- hero social links and location ---------- */
-safe("social", () => {
-  const li = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>';
-  const gh = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>';
-  const mail = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h20a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1.6 2L12 13l8.4-6H3.6z"/></svg>';
-  const a = (href, label, icon, ext) => `<a href="${esc(href)}" aria-label="${label}" title="${label}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ""}>${icon}</a>`;
-  $("#socialLinks").innerHTML =
-    (CONFIG.linkedin ? a(CONFIG.linkedin, "LinkedIn", li, true) : "") +
-    (CONFIG.github ? a(CONFIG.github, "GitHub", gh, true) : "") +
-    (CONFIG.email ? a("mailto:" + CONFIG.email, "Email", mail, false) : "");
-  if (CONFIG.location) $("#heroLocationText").textContent = CONFIG.location; else $("#heroLocation").hidden = true;
-});
-
-/* ---------- project cards ---------- */
-safe("cards", () => {
-  $("#cards").innerHTML = PROJECTS.map(p => `<a class="card reveal-scroll" href="#${p.id}">${p.thumb ? `<div class="thumb${isSvg(p.thumb.src) ? " contain" : ""}"><img src="${esc(p.thumb.src)}" alt="${esc(p.thumb.alt)}" loading="lazy"></div>` : ""}<span class="tag">${esc(p.tag)}</span><h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p><span class="go">View project &rarr;</span></a>`).join("");
-});
-
+/* ---------- technical skills ---------- */
 safe("skills", () => {
-  $("#skillgrid").innerHTML = Object.entries(SKILLS).map(([k, v]) => `<div><h3>${esc(k)}</h3><ul class="chips">${v.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
+  const grid = $("#skillgrid");
+  if (!grid) return;
+
+  grid.innerHTML = Object.entries(SKILLS).map(([category, items]) => `
+    <article class="card reveal-scroll">
+      <span class="tag">${esc(category)}</span>
+      <ul class="chips">
+        ${items.map(item => `<li>${esc(item)}</li>`).join("")}
+      </ul>
+    </article>
+  `).join("");
 });
 
+/* ---------- social media icons ---------- */
+safe("social links", () => {
+  const container = $("#socialLinks");
+  if (!container) return;
+
+  const icons = {
+    linkedin: `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8 10H5V19H8V10ZM6.5 5.5A1.5 1.5 0 1 0 6.5 8.5A1.5 1.5 0 0 0 6.5 5.5ZM19 13.5C19 10.8 17.6 9.5 15.5 9.5C14.3 9.5 13.5 10.1 13 10.8V10H10V19H13V14C13 12.7 13.3 11.5 14.7 11.5C16.1 11.5 16 13 16 14V19H19V13.5Z"/>
+    </svg>`,
+
+    github: `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M12 .8A11.2 11.2 0 0 0 8.46 22.62C9.02 22.72 9.22 22.37 9.22 22.06V19.9C5.48 20.72 4.81 18.31 4.81 18.31C4.3 17.02 3.57 16.68 3.57 16.68C2.55 15.98 3.65 15.99 3.65 15.99C4.78 16.07 5.38 17.15 5.38 17.15C6.38 18.86 8.01 18.37 9.24 18.06C9.34 17.34 9.63 16.85 9.95 16.57C6.96 16.23 3.82 15.07 3.82 9.98C3.82 8.53 4.34 7.35 5.4 6.43C5.27 6.1 4.81 4.77 5.51 2.94C5.51 2.94 6.6 2.59 9.18 4.34A9.7 9.7 0 0 1 12 3.96C12.96 3.96 13.93 4.09 14.82 4.34C17.4 2.59 18.49 2.94 18.49 2.94C19.19 4.77 18.73 6.1 18.6 6.43C19.66 7.35 20.18 8.53 20.18 9.98C20.18 15.08 17.03 16.22 14.03 16.56C14.44 16.92 14.8 17.62 14.8 18.69V22.06C14.8 22.37 15 22.73 15.57 22.62A11.2 11.2 0 0 0 12 .8Z"/>
+    </svg>`,
+
+    email: `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#EA4335" d="M3 6.5 12 13l9-6.5V19H3z"/>
+      <path fill="#4285F4" d="M3 6.5V19h3V9z"/>
+      <path fill="#34A853" d="M18 9v10h3V6.5z"/>
+      <path fill="#FBBC04" d="M3 6.5 12 13l2-1.5-11-8z"/>
+      <path fill="#C5221F" d="M21 6.5 12 13l-2-1.5 11-8z"/>
+    </svg>`
+  };
+
+  const links = [
+    { name: "LinkedIn", href: CONFIG.linkedin, icon: icons.linkedin },
+    { name: "GitHub", href: CONFIG.github, icon: icons.github },
+    { name: "Gmail", href: "mailto:" + CONFIG.email, icon: icons.email }
+  ];
+
+  container.innerHTML = links
+    .filter(link => link.href)
+    .map(link => `
+      <a class="social-link"
+         href="${esc(link.href)}"
+         aria-label="${link.name}"
+         title="${link.name}"
+         ${link.name !== "Gmail" ? 'target="_blank" rel="noopener noreferrer"' : ""}>
+        ${link.icon}
+      </a>
+    `).join("");
+});
+
+/* ---------- remove profile picture completely ---------- */
+
+safe("profile", () => {
+  const frame = $("#photoFrame");
+  if (frame) frame.remove();
+});
 /* ---------- contact ---------- */
 safe("contact", () => {
   const row = (label, text, href) => `<li><span>${label}</span><a href="${esc(href)}"${/^https?:/.test(href) ? ' target="_blank" rel="noopener noreferrer"' : ""}>${esc(text)}</a></li>`;
@@ -75,6 +95,18 @@ safe("contact", () => {
   else if (CONFIG.showPlaceholders) h += '<li><span>GitHub</span><span class="todo">[ADD in CONFIG]</span></li>';
   if (CONFIG.location) h += `<li><span>Location</span><span>${esc(CONFIG.location)}</span></li>`;
   $("#contactList").innerHTML = h;
+});
+/* ---------- Engineering project cards ---------- */
+safe("projects", () => {
+const cards = $("#cards");
+if (!cards) return;
+
+cards.innerHTML = PROJECTS.map(p => `    <a class="card reveal-scroll" href="#${esc(p.id)}">
+      ${p.thumb ?` <div class="thumb"> <img src="${esc(p.thumb.src)}"
+            alt="${esc(p.thumb.alt)}"
+            loading="lazy"> </div>
+`: ""}       <span class="tag">${esc(p.tag)}</span>       <h3>${esc(p.title)}</h3>       <p>${esc(p.summary || p.overview)}</p>       <span class="go">EXPLORE PROJECT &rarr;</span>     </a>
+ `).join("");
 });
 
 /* ---------- Verilog design cards (internal id: labGrid) ---------- */
@@ -170,3 +202,151 @@ safe("glass", () => {
     });
   }, { passive: true });
 });
+/* ---------- Reading-position electrical waveform ---------- */
+(() => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (document.getElementById("electric-wave")) return;
+
+  const style = document.createElement("style");
+
+  style.textContent = `
+    main {
+      position: relative;
+      isolation: isolate;
+    }
+
+    main > *:not(#electric-wave) {
+      position: relative;
+      z-index: 1;
+    }
+
+    #electric-wave {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    #electric-wave path {
+      fill: none;
+      stroke: #39ff88;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter:
+        drop-shadow(0 0 4px #39ff88)
+        drop-shadow(0 0 10px #00ff66);
+    }
+  `;
+
+  document.head.appendChild(style);
+
+  const svgNS = "http://www.w3.org/2000/svg";
+
+  const wave = document.createElementNS(svgNS, "svg");
+  wave.id = "electric-wave";
+  wave.setAttribute("aria-hidden", "true");
+  wave.setAttribute("preserveAspectRatio", "none");
+
+  const path = document.createElementNS(svgNS, "path");
+  wave.appendChild(path);
+
+  const main = document.querySelector("main");
+  if (!main) return;
+
+  main.prepend(wave);
+
+  let trackedScroll = window.scrollY;
+  let trackedReadingPosition =
+    trackedScroll + window.innerHeight * 0.55;
+
+  // Update the reader's position every 500 milliseconds.
+  setInterval(() => {
+    trackedScroll = window.scrollY;
+
+    trackedReadingPosition =
+      trackedScroll + window.innerHeight * 0.55;
+  }, 500);
+
+  function updateWave() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    // Follow the reader's current position on screen.
+    const y = trackedReadingPosition - window.scrollY;
+
+    wave.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+    path.setAttribute("d", `
+      M -30 ${y}
+      L ${width * 0.10} ${y}
+      L ${width * 0.13} ${y - 12}
+      L ${width * 0.16} ${y + 15}
+      L ${width * 0.19} ${y - 55}
+      L ${width * 0.22} ${y + 65}
+      L ${width * 0.25} ${y}
+      L ${width * 0.38} ${y}
+      L ${width * 0.41} ${y - 12}
+      L ${width * 0.44} ${y + 15}
+      L ${width * 0.47} ${y - 55}
+      L ${width * 0.50} ${y + 65}
+      L ${width * 0.53} ${y}
+      L ${width * 0.66} ${y}
+      L ${width * 0.69} ${y - 12}
+      L ${width * 0.72} ${y + 15}
+      L ${width * 0.75} ${y - 55}
+      L ${width * 0.78} ${y + 65}
+      L ${width * 0.81} ${y}
+      L ${width + 30} ${y}
+    `);
+  }
+
+  function showWave() {
+    updateWave();
+
+    const length = path.getTotalLength();
+
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+
+    path.getAnimations().forEach(animation => animation.cancel());
+    wave.getAnimations().forEach(animation => animation.cancel());
+
+    path.animate(
+      [
+        { strokeDashoffset: length },
+        { strokeDashoffset: 0 }
+      ],
+      {
+        duration: 2500,
+        easing: "linear",
+        fill: "forwards"
+      }
+    );
+
+    wave.animate(
+      [
+        { opacity: 0 },
+        { opacity: 0.45, offset: 0.15 },
+        { opacity: 0.45, offset: 0.75 },
+        { opacity: 0 }
+      ],
+      {
+        duration: 3000,
+        easing: "ease-in-out",
+        fill: "forwards"
+      }
+    );
+  }
+
+  window.addEventListener("resize", updateWave);
+
+  // First appearance after 5 seconds.
+  setTimeout(showWave, 5000);
+
+  // Repeat every 30 seconds.
+  setInterval(showWave, 9000);
+})();

@@ -94,13 +94,7 @@
     show(0);
   }
 
-  /* Verilog and C++ viewers */
-  if (typeof VFILES !== "undefined") {
-    viewer(
-      { tabs: "vTabs", view: "vView", note: "vNote", copy: "vCopy" },
-      VFILES
-    );
-  }
+  /* C++ code viewer */
 
   if (typeof CPPFILES !== "undefined") {
     viewer(

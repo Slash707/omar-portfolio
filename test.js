@@ -82,20 +82,20 @@ async function load(virtualFiles) {
   const refs = new Set();
   $$("img[src], a[href]").forEach(e => { const v = e.getAttribute("src") || e.getAttribute("href"); if (v && !/^(#|https?:|mailto:|data:)/.test(v)) refs.add(v); });
   w.PROJECTS.forEach(p => { [...p.docs, ...p.media.map(m => ({ href: m.src })), ...(p.thumb ? [{ href: p.thumb.src }] : [])].forEach(x => refs.add(x.href)); });
-  w.VFILES.concat(w.CPPFILES).forEach(f => refs.add(f.path));
+  w.CPPFILES.forEach(f => refs.add(f.path));
   const missingRefs = [...refs].filter(r => !fs.existsSync(ROOT + r));
   ok(`All ${refs.size} local files referenced by the site exist`, missingRefs.length === 0, missingRefs.join(", "));
   const external = [...new Set($$("a[href^=http]").map(a => a.href))];
   console.log("External links (not fetched):", external.join("  "));
 
   /* ---------- 6. code viewers ---------- */
-  for (const [tabsId, viewId, label] of [["#vTabs", "#vView", "Verilog"], ["#codeTabs", "#codeView", "C++"]]) {
+  for (const [tabsId, viewId, label] of [["#codeTabs", "#codeView", "C++"]]) {
     const tabs = $$(tabsId + " button"); let bad = [];
     for (const [i, b] of tabs.entries()) { b.click(); await sleep(40); const t = $(viewId).textContent; if (!t || /^Could not load|^Loading/.test(t) || t.length < 40) bad.push(b.textContent); }
     ok(`${label} viewer loads all ${tabs.length} files`, tabs.length > 0 && bad.length === 0, bad.join(","));
   }
-  $("#vTabs button").click(); await sleep(40);
-  ok("Verilog viewer shows real Verilog (module declaration)", /module\s+\w+/.test($("#vView").textContent));
+
+  ok("Digital design summary is displayed", /Verilog/.test($("#labGrid").textContent));
   $("#copyBtn").click(); await sleep(30);
   ok("Copy button gives feedback", /Copied|Copy failed/.test($("#copyBtn").textContent) || true);
 
@@ -140,7 +140,7 @@ async function load(virtualFiles) {
   const visible = d.body.textContent + " " + $$("[alt],[title],[aria-label]").map(e => [e.alt, e.title, e.getAttribute("aria-label")].join(" ")).join(" ");
   const labHits = visible.match(/\blabs?\b/gi);
   ok('The word "Lab"/"Labs" appears nowhere in visible content', !labHits, labHits ? labHits.length + " hits" : "");
-  const code = $("#vView").textContent + $("#codeView").textContent; ok('No "lab" in the code shown in the viewers either', !/\blabs?\b/i.test(code));
+  const code = $("#codeView").textContent; ok('No "lab" in the code shown in the viewers either', !/\blabs?\b/i.test(code));
   ok('Section title is "Code & Hardware Projects"', $("#code h2").textContent === "Code & Hardware Projects");
   ok("No phone number anywhere in the site source", !/6066|965\s?6/.test(["index.html", "js/data.js", "js/main.js", "js/code.js", "js/nav.js", "css/styles.css", "README.md"].map(f => fs.readFileSync(ROOT + f, "utf8")).join("")));
   const ph = visible.match(/\[ADD|PLACEHOLDER|placeholder|Generic placeholder/gi);

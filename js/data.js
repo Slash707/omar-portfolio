@@ -32,29 +32,74 @@ const PROJECTS = [
     docs: [], links: [], media: []
   },
   {
+    id: "project-digital-communication",
+    title: "Digital Communication System Simulation",
+    tag: "Digital communications, MATLAB & Simulink",
+    summary: "A multi-language simulation of BPSK, QPSK, and 16-QAM over an AWGN channel, including an automated 100,000-bit Simulink BPSK BER sweep.",
+    overview: "I built a digital communication simulation project to study how information is modulated, transmitted through noise, and recovered at a receiver. The project includes MATLAB implementations of BPSK, QPSK, and 16-QAM, a Simulink BPSK model with an AWGN channel, and Python and C++ reference implementations.",
+    objective: "Model a complete digital transmission path and measure how the bit error rate changes as the energy-per-bit-to-noise ratio (Eb/N0) increases.",
+    tools: ["MATLAB R2026b", "Simulink", "Python 3.14", "C++", "Git and GitHub"],
+    contrib: [
+      "Implemented modulation and demodulation workflows for BPSK, QPSK, and 16-QAM.",
+      "Built a Simulink BPSK model with an adjustable AWGN channel.",
+      "Expanded the Simulink test from an 80-bit message to 100,000 random bits and automated a seven-point Eb/N0 sweep from 0 to 12 dB.",
+      "Added automated tests and saved measured BER results in a CSV file."
+    ],
+    concepts: [
+      "Digital modulation and demodulation",
+      "Additive white Gaussian noise (AWGN)",
+      "Bit Error Rate (BER) and Eb/N0",
+      "Simulation automation and cross-language validation"
+    ],
+    learn: [
+      "The measured BER decreased as Eb/N0 increased, matching the expected behavior of a BPSK receiver.",
+      "The 100,000-bit run observed no bit errors at 10 and 12 dB. A measured value of 0.00000 means no errors were observed in this finite run; it does not mean the true BER is zero.",
+      "A theoretical-versus-measured BER comparison is a planned next improvement and has not yet been completed."
+    ],
+    results: [
+      "0 dB: 0.07923",
+      "2 dB: 0.03792",
+      "4 dB: 0.01281",
+      "6 dB: 0.00258",
+      "8 dB: 0.00016",
+      "10 dB: 0.00000 (no errors observed)",
+      "12 dB: 0.00000 (no errors observed)"
+    ],
+    docs: [],
+    links: [
+      { label: "GitHub project repository", href: "https://github.com/Slash707/digital-communication-system" },
+      { label: "Simulink BER results (CSV)", href: "https://github.com/Slash707/digital-communication-system/blob/main/results/simulink/simulink_ber_results.csv" }
+    ],
+    media: []
+  },
+  {
     id: "project-alu",
     title: "ALU & Microprocessor Digital Design",
-    tag: "Academic, Verilog",
-    thumb: { src: "assets/projects/wave-micro.svg", alt: "Simulation waveform of my microprocessor design" },
-    summary: "Designed and simulated digital logic circuits from basic adders to a full microprocessor with a microcoded controller using Verilog.",
-    overview: "This coursework took a design from single gates to a small processor. I drew each circuit in a Digital logic simulator, exported it to Verilog, and simulated it with Icarus Verilog using test-vector files. It covers half and full adders, multiplexers, a 4-bit register built from D flip-flops, program counters, and finally a microprocessor with a controller driven by a microcoded ROM, an address generator, and RAM loaded from a file.",
-    objective: "Understand how basic digital components combine into registers, an ALU and a working processor, and check each design in simulation.",
-    tools: ["Digital (logic simulator)", "Verilog", "Icarus Verilog", "GTKWave (VCD waveforms)"],
-    contrib: ["Designed and simulated the circuits for each assignment as coursework.", "Wrote test vectors and ran the simulations, using the VCD waveforms to check behavior."],
-    concepts: ["Combinational logic: adders, multiplexers, incrementer", "Sequential logic: D flip-flops, register with enable and reset, program counter", "ALU with invert, pass, carry-out and overflow signals", "Microcoded control: step counter, instruction register, ROM", "Test-vector simulation and waveform inspection"],
-    learn: ["How small blocks compose into a datapath and then a processor.", "How to read VCD waveforms to confirm or debug behavior."],
-    alu: true,
-    docs: [
-      { label: "ALU & Multiplexer source files (.zip)", href: "assets/docs/ALU_Multiplexer_Design_Files.zip" },
-      { label: "Register & CPU source files (.zip)", href: "assets/docs/Register_CPU_Design_Files.zip" },
-      { label: "Microprocessor source files (.zip)", href: "assets/docs/Microprocessor_Design_Files.zip" }
+    tag: "Digital logic design, Verilog",
+    summary: "Coursework in combinational and sequential digital design, from adders and multiplexers to registers, ALU architecture, and a small microprocessor.",
+    overview: "I used a digital logic simulator to design and study circuits ranging from basic gates to a small processor. The coursework covered half and full adders, multiplexers, an ALU, registers, a program counter, and a microprocessor datapath and controller. I implemented designs in Verilog, tested them with Icarus Verilog testbenches, and inspected signal waveforms in GTKWave to check their behavior.",
+    objective: "Understand how basic logic components combine into larger digital systems, and use simulation to verify that their outputs follow the expected behavior.",
+    tools: ["Digital logic simulator", "Verilog", "Icarus Verilog", "GTKWave"],
+    contrib: [
+      "Designed and tested combinational logic including adders, multiplexers, and ALU operations.",
+      "Worked with sequential components including D flip-flop registers and a program counter.",
+      "Combined datapath and control components into a small microprocessor coursework design.",
+      "Ran testbenches and test vectors, then inspected simulation waveforms to check signal behavior."
     ],
+    concepts: [
+      "Combinational and sequential logic",
+      "Adders, multiplexers, and ALU operations",
+      "Registers, program counters, and processor datapaths",
+      "Microcoded control and simulation-based verification"
+    ],
+    learn: [
+      "How individual logic blocks combine into a datapath and processor.",
+      "How testbenches and waveforms help identify and verify digital circuit behavior."
+    ],
+    alu: true,
+    docs: [],
     links: [],
-    media: [
-      { src: "assets/projects/wave-mux.svg", alt: "Waveform of the 4-bit multiplexer plotted from my simulation" },
-      { src: "assets/projects/wave-reg.svg", alt: "Waveform of the 4-bit register plotted from my simulation" },
-      { src: "assets/projects/wave-micro.svg", alt: "Waveform of the microprocessor plotted from my simulation" }
-    ]
+    media: []
   },
   {
     id: "project-trashforce",
@@ -101,133 +146,22 @@ const PROJECTS = [
 const DOCS = [
   { title: "Resume", href: "assets/resume.pdf", preview: "assets/previews/resume.jpg", sum: "My current resume: ASU Electrical Engineering (expected 2029), skills, relevant coursework, and academic projects." },
   { title: "Trash Force Trio Report", href: "assets/docs/FSE100_Final_Report.pdf", preview: "assets/previews/report.jpg", sum: "Team report for a three-robot forest maintenance system. Covers requirements, designs, algorithms, decision matrices, and Tinkercad simulations; includes my Eco-Monitor design and circuit." },
-  { title: "Trash Force Trio Slides", href: "assets/docs/Trash_Force_Trio_Slides.pdf", preview: "assets/previews/slides.jpg", sum: "Short slide deck pitching the project: the problem, the three robots, their sensors and outputs, and how they collaborate." },
-  { title: "ALU & Multiplexer Design", href: "assets/docs/ALU_Multiplexer_Design_Files.zip", preview: "assets/projects/wave-mux.svg", sum: "Digital and Verilog files for half and full adders, a 4-bit adder, multiplexers, an incrementer, and a not/negate circuit, with test vectors." },
-  { title: "Register & CPU Design", href: "assets/docs/Register_CPU_Design_Files.zip", preview: "assets/projects/wave-reg.svg", sum: "Files for a 4-bit register, program counter, program RAM, an ALU, and a simple CPU, with testbenches." },
-  { title: "Microprocessor Design", href: "assets/docs/Microprocessor_Design_Files.zip", preview: "assets/projects/wave-micro.svg", sum: "Files for a small microprocessor with a controller, address generator, registers, and memory, with a test-vector testbench." }
+  { title: "Trash Force Trio Slides", href: "assets/docs/Trash_Force_Trio_Slides.pdf", preview: "assets/previews/slides.jpg", sum: "Short slide deck pitching the project: the problem, the three robots, their sensors and outputs, and how they collaborate." }
 ];
 
 /* Verilog design cards in the "Code & Hardware Projects" section (internal id: labGrid) */
 const LABS = [
   {
-    title: "ALU & Multiplexer Implementation", sub: "Combinational logic",
+    title: "Digital Logic Design & Microprocessor Summary",
+    sub: "Verilog, Icarus Verilog & GTKWave",
     points: [
-      "Built half and full adders, a 4-bit adder, 2-bit and 4-bit multiplexers, an incrementer, and a not/negate circuit in Digital.",
-      "Exported the 4-bit multiplexer to Verilog and tested it with vectors: select 0 passes A, select 1 passes B.",
-      "The simulation ran with no output mismatches."
-    ],
-    wave: { src: "assets/projects/wave-mux.svg", alt: "Waveform of the 4-bit multiplexer: output y follows a when sel is 0 and b when sel is 1" },
-    zip: { label: "Download ALU files", href: "assets/docs/ALU_Multiplexer_Design_Files.zip" }
-  },
-  {
-    title: "Register & Simple CPU Architecture", sub: "Sequential logic",
-    points: [
-      "Built a 4-bit register from D flip-flops with enable and reset, plus a program counter and program RAM.",
-      "Combined an ALU, accumulator and RAM into a simple CPU datapath.",
-      "The register testbench ran with no output mismatches. The waveform shows it loading F while enabled, holding, then clearing on reset."
-    ],
-    wave: { src: "assets/projects/wave-reg.svg", alt: "Waveform of the 4-bit register: q loads F when enable is high, holds, then clears on reset" },
-    zip: { label: "Download register files", href: "assets/docs/Register_CPU_Design_Files.zip" }
-  },
-  {
-    title: "Microprocessor Datapath & Control", sub: "Datapath and control",
-    points: [
-      "Combined the datapath with a controller that uses a 64x14 microcode ROM, a step register, and an instruction register.",
-      "Added an address generator (program counter and memory address register) and RAM contents loaded from a file.",
-      "The waveform shows the step counter cycling, the program counter advancing, and the accumulator loading a value from RAM."
-    ],
-    wave: { src: "assets/projects/wave-micro.svg", alt: "Waveform of the microprocessor: clock, reset, step register, program counter and accumulator" },
-    zip: { label: "Download microprocessor files", href: "assets/docs/Microprocessor_Design_Files.zip" }
+      "Designed combinational logic such as half and full adders, multiplexers, incrementers, and ALU operations.",
+      "Worked with sequential logic including registers, a program counter, and a small microprocessor datapath and controller.",
+      "Used Icarus Verilog testbenches and test vectors, then inspected signal waveforms in GTKWave to verify expected behavior."
+    ]
   }
 ];
 
-const VFILES = [
-  // LAB 2 — ALU and Multiplexer
-  {
-    name: "Lab 2 ALU Add",
-    path: "verilog/lab2_alu_add.v",
-    note: "Verilog source for the Lab 2 ALU addition circuit."
-  },
-  {
-    name: "Lab 2 ALU Top",
-    path: "verilog/lab2_alu_top.v",
-    note: "Top-level module connecting the Lab 2 ALU components."
-  },
-  {
-    name: "Lab 2 Multiplexer",
-    path: "verilog/lab2_four_bit_mux.v",
-    note: "Four-bit multiplexer implementation."
-  },
-  {
-    name: "Lab 2 Mux Top",
-    path: "verilog/lab2_four_bit_mux_top.v",
-    note: "Top-level module for the four-bit multiplexer."
-  },
-  {
-    name: "Lab 2 Mux Vectors",
-    path: "verilog/lab2_four_bit_mux_stim.txt",
-    note: "Test vectors for the four-bit multiplexer."
-  },
-
-  // LAB 3 — ALU, Register, and Brainless Processor
-  {
-    name: "Lab 3 ALU Top",
-    path: "verilog/lab3_alu_top.v",
-    note: "Top-level ALU module from Lab 3."
-  },
-  {
-    name: "Lab 3 Brainless",
-    path: "verilog/lab3_brainless.v",
-    note: "Brainless processor implementation."
-  },
-  {
-    name: "Lab 3 Brainless Stim",
-    path: "verilog/lab3_brainless_stim.v",
-    note: "Testbench stimulus for the brainless processor."
-  },
-  {
-    name: "Lab 3 Brainless Top",
-    path: "verilog/lab3_brainless_top.v",
-    note: "Top-level brainless processor module."
-  },
-  {
-    name: "Lab 3 Register",
-    path: "verilog/lab3_four_bit_reg.v",
-    note: "Four-bit register implementation."
-  },
-  {
-    name: "Lab 3 Register Stim",
-    path: "verilog/lab3_four_bit_reg_stim.v",
-    note: "Testbench stimulus for the four-bit register."
-  },
-  {
-    name: "Lab 3 Register Top",
-    path: "verilog/lab3_four_bit_reg_top.v",
-    note: "Top-level four-bit register module."
-  },
-
-  // LAB 4 — Microprocessor
-  {
-    name: "Lab 4 Microprocessor",
-    path: "verilog/lab4_microprocessor.v",
-    note: "Microprocessor implementation."
-  },
-  {
-    name: "Lab 4 Micro Stim",
-    path: "verilog/lab4_micro_stim.v",
-    note: "Microprocessor testbench stimulus."
-  },
-  {
-    name: "Lab 4 Micro Top",
-    path: "verilog/lab4_micro_top.v",
-    note: "Top-level microprocessor module."
-  },
-  {
-    name: "Lab 4 RAM Values",
-    path: "verilog/lab4_ram_vals.txt",
-    note: "RAM initialization values used by the microprocessor."
-  }
-];
 const CPPFILES = [
   { name: "alu_model.cpp", path: "cpp/alu_model.cpp", note: "Software model of a 4-bit ALU built from full adders and logic operations." },
   { name: "fuzzy_membership.cpp", path: "cpp/fuzzy_membership.cpp", note: "Fuzzification of wind speed into LOW, MEDIUM and HIGH sets: a concept study, not the internship system." }

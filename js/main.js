@@ -109,9 +109,11 @@ cards.innerHTML = PROJECTS.map(p => `    <a class="card reveal-scroll" href="#${
  `).join("");
 });
 
-/* ---------- Verilog design cards (internal id: labGrid) ---------- */
+/* ---------- Digital design summary ---------- */
 safe("designs", () => {
-  $("#labGrid").innerHTML = LABS.map(l => `<article class="lab reveal-scroll"><div><span class="tag">${esc(l.sub)}</span><h3>${esc(l.title)}</h3><ul>${l.points.map(x => `<li>${esc(x)}</li>`).join("")}</ul><a class="go" href="${esc(l.zip.href)}" download>${esc(l.zip.label)} &darr;</a></div>${l.wave ? `<figure><img src="${esc(l.wave.src)}" alt="${esc(l.wave.alt)}" loading="lazy"><figcaption>Plotted from the VCD file my simulation produced.</figcaption></figure>` : ""}</article>`).join("");
+  const grid = $("#labGrid");
+  if (!grid || typeof LABS === "undefined") return;
+  grid.innerHTML = LABS.map(l => `<article class="lab reveal-scroll"><div><span class="tag">${esc(l.sub)}</span><h3>${esc(l.title)}</h3><ul>${l.points.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div></article>`).join("");
 });
 
 /* ---------- documents ---------- */
@@ -134,12 +136,15 @@ const ALU = `<svg class="alu" viewBox="0 0 640 300" role="img" aria-label="Illus
 function detail(p) {
   const gallery = p.media.length ? `<h2>Images and diagrams</h2><div class="gallery">${p.media.map(m => `<a href="${esc(m.src)}" target="_blank" rel="noopener"><img src="${esc(m.src)}" alt="${esc(m.alt)}" loading="lazy"></a>`).join("")}</div>` : "";
   const files = (p.docs && p.docs.length) || (p.links && p.links.length) ? `<h2>Files and links</h2><ul>${[...(p.docs || []), ...(p.links || [])].map(l => `<li><a href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)}</a></li>`).join("")}</ul>` : "";
+  const results = p.results && p.results.length
+    ? `<h2>Measured Simulink BER (100,000 bits)</h2>${list(p.results)}<p class="meta">These are measured results from one finite simulation run. A zero result means no bit errors were observed in the tested bits.</p>`
+    : "";
   $("#detailBody").innerHTML = `<a class="back" href="#projects">&larr; All projects</a><span class="tag" style="display:block;margin-top:24px">${esc(p.tag)}</span><h1>${esc(p.title)}</h1>
 <h2>Overview</h2><p>${esc(p.overview)}</p><h2>Objective</h2><p>${esc(p.objective)}</p>
 <h2>Technologies and tools</h2><ul class="chips">${p.tools.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
 <h2>My contribution</h2>${list(p.contrib)}<h2>Engineering concepts</h2>${list(p.concepts)}<h2>Challenges and learning outcomes</h2>${list(p.learn)}
 ${p.alu ? `<h2>What an ALU does</h2><p>An Arithmetic Logic Unit is the part of a processor that carries out arithmetic (such as add and subtract) and logical operations (such as AND, OR, and compare). It takes two operands and an operation-select input, routes them through adders and logic gates, and uses multiplexers to pick which result leaves as the output. Registers hold the operands and results between clock cycles.</p>${ALU}` : ""}
-${files}${gallery}`;
+${results}${files}${gallery}`;
 }
 
 function route() {

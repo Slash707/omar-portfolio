@@ -32,47 +32,6 @@ const PROJECTS = [
     docs: [], links: [], media: []
   },
   {
-    id: "project-digital-communication",
-    title: "Digital Communication System Simulation",
-    tag: "Digital communications, MATLAB & Simulink",
-    summary: "A multi-language simulation of BPSK, QPSK, and 16-QAM over an AWGN channel, including an automated 100,000-bit Simulink BPSK BER sweep.",
-    overview: "I built a digital communication simulation project to study how information is modulated, transmitted through noise, and recovered at a receiver. The project includes MATLAB implementations of BPSK, QPSK, and 16-QAM, a Simulink BPSK model with an AWGN channel, and Python and C++ reference implementations.",
-    objective: "Model a complete digital transmission path and measure how the bit error rate changes as the energy-per-bit-to-noise ratio (Eb/N0) increases.",
-    tools: ["MATLAB R2026b", "Simulink", "Python 3.14", "C++", "Git and GitHub"],
-    contrib: [
-      "Implemented modulation and demodulation workflows for BPSK, QPSK, and 16-QAM.",
-      "Built a Simulink BPSK model with an adjustable AWGN channel.",
-      "Expanded the Simulink test from an 80-bit message to 100,000 random bits and automated a seven-point Eb/N0 sweep from 0 to 12 dB.",
-      "Added automated tests and saved measured BER results in a CSV file."
-    ],
-    concepts: [
-      "Digital modulation and demodulation",
-      "Additive white Gaussian noise (AWGN)",
-      "Bit Error Rate (BER) and Eb/N0",
-      "Simulation automation and cross-language validation"
-    ],
-    learn: [
-      "The measured BER decreased as Eb/N0 increased, matching the expected behavior of a BPSK receiver.",
-      "The 100,000-bit run observed no bit errors at 10 and 12 dB. A measured value of 0.00000 means no errors were observed in this finite run; it does not mean the true BER is zero.",
-      "A theoretical-versus-measured BER comparison is a planned next improvement and has not yet been completed."
-    ],
-    results: [
-      "0 dB: 0.07923",
-      "2 dB: 0.03792",
-      "4 dB: 0.01281",
-      "6 dB: 0.00258",
-      "8 dB: 0.00016",
-      "10 dB: 0.00000 (no errors observed)",
-      "12 dB: 0.00000 (no errors observed)"
-    ],
-    docs: [],
-    links: [
-      { label: "GitHub project repository", href: "https://github.com/Slash707/digital-communication-system" },
-      { label: "Simulink BER results (CSV)", href: "https://github.com/Slash707/digital-communication-system/blob/main/results/simulink/simulink_ber_results.csv" }
-    ],
-    media: []
-  },
-  {
     id: "project-alu",
     title: "ALU & Microprocessor Digital Design",
     tag: "Digital logic design, Verilog",

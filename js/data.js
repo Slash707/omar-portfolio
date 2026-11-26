@@ -103,7 +103,7 @@ const PROJECTS = [
 
 /* preview: a real image of the document's first page, or a real waveform from my simulations */
 const DOCS = [
-  { title: "Resume", href: "assets/resume.pdf", preview: "assets/previews/resume.jpg", sum: "My current resume: ASU Electrical Engineering (expected 2029), skills, relevant coursework, and academic projects." },
+  { title: "Resume", href: "assets/resume.pdf", sum: "My current resume: ASU Electrical Engineering (expected 2029), engineering internship, selected projects, and technical skills." },
   { title: "Trash Force Trio Report", href: "assets/docs/FSE100_Final_Report.pdf", preview: "assets/previews/report.jpg", sum: "Team report for a three-robot forest maintenance system. Covers requirements, designs, algorithms, decision matrices, and Tinkercad simulations; includes my Eco-Monitor design and circuit." },
   { title: "Trash Force Trio Slides", href: "assets/docs/Trash_Force_Trio_Slides.pdf", preview: "assets/previews/slides.jpg", sum: "Short slide deck pitching the project: the problem, the three robots, their sensors and outputs, and how they collaborate." }
 ];
